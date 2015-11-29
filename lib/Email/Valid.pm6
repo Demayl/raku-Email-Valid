@@ -15,8 +15,8 @@ my Int $mailbox_max_length = 64;
 
 # grammar got exported in the GLOBAL namespace ... wtf ?
 my grammar Email::Valid::Tokens {
-    token TOP     { ^ (<mailbox>)<?{$0.codes <= $mailbox_max_length}> '@' (<domain>)<?{$0.codes <= $max_length - $mailbox_max_length - 1}> $ }
-    token mailbox { [\w|'.'|'%'|'+'|'-']+ } # we can extend allowed characters or allow quoted mailboxes
+    token TOP     { ^ (<mailbox>)<?{$0.codes <= $mailbox_max_length}> '@' (<domain>)<?{$1.codes <= $max_length - $mailbox_max_length - 1}> $ }
+    token mailbox { <:alpha +digit> [\w|'.'|'%'|'+'|'-']+ } # we can extend allowed characters or allow quoted mailboxes
     token tld     { [ 'xn--' <:alpha +digit> ** 2..* | <:alpha> ** 2..15 ] }
     token domain  { ([ <!before '-'> [ 'xn--' <:alpha +digit> ** 2..* | [\w | '-']+ ] '.' ]) ** 1..4 <?{ all($0.flat) ~~ /^. ** 2..64$/ }>
          (<tld>)
