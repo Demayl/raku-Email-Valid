@@ -22,6 +22,7 @@ It allows IDN domains ( 'xn--' )
 ## TODO
 - [ ] Add MX Check
 - [ ] Add "Hello" Callback verification
+- [ ] Add TLD check ( create module Net::Domain::TLD )
 - [ ] Allow quoted mailboxes
 - [ ] Allow ip addresses in domain part
 - [ ] Fix ( Add ) IDN domain char limit
