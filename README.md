@@ -5,11 +5,13 @@ Email::Valid - Check validity of email addresses
 use v6;
 use Email::Valid;
 
-my $email = Email::Valid.new(:simple = True);
+my $email = Email::Valid.new(:simple(True));
 
 if $email.validate("test@domain.tld") {
     say "test@domain.tld is valid";
 }
+say "Mailbox is: " ~ $email.parse('test@domain.tld')[0].Str;
+# Mailbox is: test
 ```
 
 ## Description
