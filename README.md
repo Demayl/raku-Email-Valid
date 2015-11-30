@@ -21,13 +21,13 @@ It allows IDN domains ( 'xn--' )
 
 ## Examples
 # Enable MX check
-8.8.8.8 is the default DNS server
-5 seconds is the default NS lookup timeout
+- 8.8.8.8 is the default DNS server
+- 5 seconds is the default NS lookup timeout
 ```perl6
 my $email = Email::Valid.new(:simple(False), :mx_check, :ns_server('8.8.8.8'), :ns_server_timeout(5) );
 
-if $email.validate("test@domain.tld") {
-    say "test@domain.tld is valid";
+if !$email.validate("test@domain.tld") {
+    say "test@domain.tld is NOT valid";
 }
 ```
 
