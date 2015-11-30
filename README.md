@@ -19,8 +19,13 @@ This module validates if given email is valid.
 It's a validation only for "most" popular email types.
 It allows IDN domains ( 'xn--' )
 
+## Methods
+- validate( Str $email! --> Bool )
+- parse( Str $email! --> Match )
+- mx_validate( Str $email! --> Bool ) # Just check if domain has MX record
+
 ## Examples
-# Enable MX check
+### Enable MX check
 - 8.8.8.8 is the default DNS server
 - 5 seconds is the default NS lookup timeout
 ```perl6
