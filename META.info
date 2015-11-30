@@ -5,7 +5,7 @@
     "provides": {
         "Email::Valid"         : "lib/Email/Valid.pm",
     },
-    "depends"     : [],
+    "depends"     : ["Net::DNS"],
     "authors" : [
         "Denis Kanchev - demayl"
     ],
