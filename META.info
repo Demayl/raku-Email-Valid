@@ -3,7 +3,7 @@
     "version"     : "0.1",
     "description" : "Email validator for Perl6",
     "provides": {
-        "Email::Valid"         : "lib/Email/Valid.pm",
+        "Email::Valid"         : "lib/Email/Valid.pm"
     },
     "depends"     : ["Net::DNS"],
     "authors" : [
