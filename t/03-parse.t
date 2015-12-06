@@ -7,8 +7,9 @@ use Email::Valid;
 my $email = Email::Valid.new();
 
 sub validate(Str $mail!, Str $box!, Str $domain! ){
-    my $p = $email.parse($mail);
-    return $p[0] eq $box && $p[1] eq $domain;
+    my $p = $email.parse($mail) || return False;
+
+    return $p<email><mailbox> eq $box && $p<email><domain> eq $domain;
 }
 
 nok ( so all [
@@ -42,7 +43,4 @@ ok ( so all [
     validate( 'кутия@xn--c1arf.xn--e1aybc.xn--90ae', 'кутия', 'xn--c1arf.xn--e1aybc.xn--90ae' ),
     validate( 'кутия@тест.ру', 'кутия', 'тест.ру' ),
     ]),
-'Simple mails'
-
-
-
+'Simple mails';
