@@ -37,7 +37,7 @@ if !$email.validate("test@domain.tld") {
 ```
 
 ## TODO
-- [ ] Add MX Check
+- [x] Add MX Check
 - [ ] Add "Hello" Callback verification
 - [ ] Add TLD check ( create module Net::Domain::TLD )
 - [ ] Add POD documentation
