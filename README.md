@@ -1,5 +1,5 @@
 # Email::Valid
-Email::Valid - Check validity of email addresses
+Email::Valid - WIP module to check validity of email addresses
 ## Synopsis
 ```perl6
 use v6;
