@@ -36,6 +36,15 @@ if !$email.validate("test@domain.tld") {
 }
 ```
 
+### Extract emails from text & validate them
+```perl6
+my $txt   = 'Some mails - <mail1@dont-exist.com,mail2@mail.com>'
+my $email = Email::Valid.new(:simple(False), :mx_check );
+
+$email.extract( $txt, :validate ) ; 
+# (mail2@mail.com) because it has valid MX record
+```
+
 ## TODO
 - [x] Add MX Check
 - [ ] Add "Hello" Callback verification
