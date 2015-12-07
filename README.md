@@ -23,6 +23,7 @@ It allows IDN domains ( 'xn--' )
 - validate( Str $email! --> Bool )
 - parse( Str $email! --> Match )
 - mx_validate( Str $email! --> Bool ) # Just check if domain has MX record
+- extract( Str $text!, Bool :$matchs = False, Bool :$validate = False --> List )
 
 ## Examples
 ### Enable MX check
