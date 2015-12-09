@@ -40,6 +40,11 @@ my grammar Email::Valid::Ripper is Email::Valid::Tokens {
     token TOP { ^ .*? [.*? [<.after \W>|^] (<email>) [\W|$] .*?]+ .*? $ }
 }
 
+my class Email::Valid::SMTP {
+
+
+}
+
 # Wait for "is cached" trait to remove $!regex_parsed
 method !parse_regex(Str $email!) {
     $!regex_parsed{$email} //= Email::Valid::Tokens.parse($email) // False;
@@ -122,6 +127,23 @@ method mx_validate(Str $email!) {
     return self!validate_domain( $domain );
 }
 
+
+method smtp_validate(Str $email!) {
+    
+    my Match $mail      = self!parse_regex($email)<email>;
+    my Str   $mbox      = $mail<mailbox>.Str;
+    my Str   $domain    = $mail<domain>.Str;
+    my List  $mx_list   = self!mx_lookup($domain).cache; # Sequence is consumed
+
+    if not so $mx_list {
+        warn "Failed to get MX records";
+        return False;
+    }
+
+    my $mx_records = $mx_list.sort(*.priority).map: *.name.join: '.';
+
+
+}
 
 # '0_O';
 
