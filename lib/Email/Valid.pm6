@@ -25,15 +25,14 @@ my Int $mailbox_max_length = 64;
 my Int $max_subd_parts = 4;
 my %domain_mx;                     # Cache MX records for domains, its cached in class, not instance. One instance can handle multiple checks
 
+# TODO separate grammars
 # Multicast & Experimental addresses are excluded
-my grammar Email::Valid::IPv4 {
-
+my grammar IPv4 {
     token octet      { (\d**1..3) <?{ $0 < 256 }> }
     token ipv4       { <!before 0>(<.octet>) \. (<.octet>) \. (<.octet>) \. (<.octet>) }
     token ipv4-host  { <!before [<multicast>||<experiment>]>[<ipv4-local>||<ipv4>] <!after 0> }
     token multicast  { (<.octet>)<?{ $0 ~~ 224..239}>\.<.octet> ** 3 % '.' }
     token experiment { (<.octet>)<?{ $0 ~~ 240..255}>\.<.octet> ** 3 % '.' }
-    token skoba { \[ }
     token ipv4-local {
         10\.<.octet> ** 3 % '.' ||
         172\.(<.octet>)<?{$0 ~~ 16..31}>\.<.octet>\.<.octet> ||
@@ -42,16 +41,29 @@ my grammar Email::Valid::IPv4 {
     }
 }
 
-# grammar got exported in the GLOBAL namespace ... wtf ?
+# This grammar will ignore anycast addresses ( that ends with :: ) NOTE maybe all ending with 0
+# In short variant :: can be used only once
+# TODO exclude local variants
+my grammar IPv6 {
+    token ipv6-host  { <ipv6-full> || <ipv6-short> || <ipv6-tiny> }
+    token ipv6-full  { <ipv6-block> ** 8 % <.ipv6-sep> }
+    token ipv6-short { <ipv6-block> ** 1..6 %% <.ipv6-sep> <.ipv6-sep> <ipv6-block> ** 1..6 % <.ipv6-sep> <?{$/<ipv6-block>.elems < 8}>  }
+    token ipv6-tiny  { <.ipv6-sep> ** 2 <ipv6-block> }
+    token ipv6-sep   { ':' }
+    token ipv6-block { <[ a..f 0..9 ]> ** 1..4 }
+}
+
+
 # Use tokens, not rules !
 # Difference between token & rule is that rule enables :sigspace modifier ( match literally a space )
-my grammar Email::Valid::Tokens is Email::Valid::IPv4 {
+my grammar Email::Valid::Tokens is IPv4 is IPv6 {
     token TOP     { ^ <email> $}
     token email   { <mailbox><?{$/<mailbox>.codes <= $mailbox_max_length}> '@' <domain><?{$/<domain>.codes <= $max_length - $mailbox_max_length - 1}>  }
     token mailbox { <:alpha +digit> [\w|'.'|'%'|'+'|'-']+<!after < . % + - >> } # we can extend allowed characters or allow quoted mailboxes
     token tld     { [ 'xn--' <:alpha +digit> ** 2..* | <:alpha> ** 2..15 ] }
-    token domain  { ([ <!before '-'> [ 'xn--' <:alpha +digit> ** 2..* | [\w | '-']+ ] <!after '-'> '.' ]) ** {1..$max_subd_parts} <?{ all($0.flat) ~~ /^. ** 2..64$/ }>
-         <tld> || \[<ipv4-host>\]
+    token domain  { 
+        ([ <!before '-'> [ 'xn--' <:alpha +digit> ** 2..* | [\w | '-']+ ] <!after '-'> '.' ]) ** {1..$max_subd_parts} <?{ all($0.flat) ~~ /^. ** 2..64$/ }>
+         <tld> || \[<ipv4-host>\] || \['IPv6:'<ipv6-host>\]
     }
 }
 
@@ -66,7 +78,7 @@ method !parse_regex(Str $email!) {
         my $parsed  = Email::Valid::Tokens.parse($email) // False;
 
         if $parsed {
-            my $ip      = $parsed<email><domain><ipv4-host> ;
+            my $ip      = $parsed<email><domain><ipv4-host> || $parsed<email><domain><ipv6-host>;
 
             if !$.allow-ip && so $ip { # IP's not allowed
                 $parsed = False;
