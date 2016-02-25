@@ -50,7 +50,7 @@ my grammar IPv6 {
     token ipv6-short { <ipv6-block> ** 1..6 %% <.ipv6-sep> <.ipv6-sep> <ipv6-block> ** 1..6 % <.ipv6-sep> <?{$/<ipv6-block>.elems < 8}>  }
     token ipv6-tiny  { <.ipv6-sep> ** 2 <ipv6-block> }
     token ipv6-sep   { ':' }
-    token ipv6-block { <[ a..f 0..9 ]> ** 1..4 }
+    token ipv6-block { :i <[ a..f 0..9 ]> ** 1..4 }
 }
 
 
