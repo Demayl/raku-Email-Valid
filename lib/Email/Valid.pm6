@@ -63,7 +63,7 @@ my grammar Email::Valid::Tokens is IPv4 is IPv6 {
     token tld     { [ 'xn--' <:alpha +digit> ** 2..* | <:alpha> ** 2..15 ] }
     token domain  { 
         ([ <!before '-'> [ 'xn--' <:alpha +digit> ** 2..* | [\w | '-']+ ] <!after '-'> '.' ]) ** {1..$max_subd_parts} <?{ all($0.flat) ~~ /^. ** 2..64$/ }>
-         <tld> || \[<ipv4-host>\] || \['IPv6:'<ipv6-host>\]
+         <tld> || \[<ipv4-host>\] || \[ < I i > < P p > < V v >6':'<ipv6-host>\]
     }
 }
 
