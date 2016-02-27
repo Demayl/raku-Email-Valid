@@ -17,7 +17,7 @@ say "Mailbox is: " ~ $email.parse('test@domain.tld')[0].Str;
 ## Description
 This module validates if given email is valid.
 It's a validation only for "most" popular email types.
-It allows IDN domains ( 'xn--' )
+It allows IDN domains ( 'xn--' ) and IP address domains ( IPv4 + IPv6 ) disabled by default
 
 ## Methods
 - validate( Str $email! --> Bool )
@@ -52,5 +52,5 @@ $email.extract( $txt, :validate ) ;
 - [ ] Add TLD check ( create module Net::Domain::TLD )
 - [ ] Add POD documentation
 - [ ] Allow quoted mailboxes
-- [ ] Allow ip addresses in domain part
+- [x] Allow ip addresses in domain part
 - [ ] Fix ( Add ) IDN domain char limit
