@@ -9,7 +9,6 @@ has Bool $.tld_check    = False;
 has Bool $.allow_tags   = False;
 has Bool $.allow-ip     = False;
 has Bool $.allow-local  = False;
-has Int  $.max-subd     = 3;
 has Bool $.simple       = True; # Try only simple regex validation. Usefull in mose cases. You must explicit set it to False to use other tests
 has Str  $.ns_server    = '8.8.8.8'; # TODO Allow multiple NS servers
 has Int  $.ns_server_timeout where 3 <= * <= 250 = 5;
@@ -46,9 +45,9 @@ my grammar IPv4 {
 # TODO exclude local variants
 my grammar IPv6 {
     token ipv6-host  { <ipv6-full> || <ipv6-short> || <ipv6-tiny> }
-    token ipv6-full  { <ipv6-block> ** 8 % <.ipv6-sep> }
-    token ipv6-short { <ipv6-block> ** 1..6 %% <.ipv6-sep> <.ipv6-sep> <ipv6-block> ** 1..6 % <.ipv6-sep> <?{$/<ipv6-block>.elems < 8}>  }
-    token ipv6-tiny  { <.ipv6-sep> ** 2 <ipv6-block> }
+    token ipv6-full  { <ipv6-block> ** 8 % <.ipv6-sep> <!before ':'0+> }
+    token ipv6-short { <ipv6-block> ** 1..6 %% <.ipv6-sep> <.ipv6-sep> <ipv6-block> ** 1..6 % <.ipv6-sep> <?{$/<ipv6-block>.elems < 8}> <!after ':'0+>  }
+    token ipv6-tiny  { <.ipv6-sep> ** 2 <ipv6-block> <!after ':'0+> }
     token ipv6-sep   { ':' }
     token ipv6-block { :i <[ a..f 0..9 ]> ** 1..4 }
 }
