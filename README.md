@@ -25,6 +25,14 @@ It allows IDN domains ( 'xn--' ) and IP address domains ( IPv4 + IPv6 ) disabled
 - mx_validate( Str $email! --> Bool ) # Just check if domain has MX record
 - extract( Str $text!, Bool :$matchs = False, Bool :$validate = False --> List )
 
+## Constructor
+- Bool mx_check      = False    # MX test
+- Bool allow-ip      = False    # Allow IPv4 & IPv6 as domain
+- Bool allow-local   = False    # Allow IP private addresses in domain
+- Bool simple        = True     # Perform only local tests ( w/o MX check for example )
+- Str  ns_server     = '8.8.8.8'# Define NS server for MX test
+- Int  ns_server_timeout = 5    # NS server timeout in seconds
+
 ## Examples
 ### Enable MX check
 - 8.8.8.8 is the default DNS server
