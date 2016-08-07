@@ -32,6 +32,7 @@ It allows IDN domains ( 'xn--' ) and IP address domains ( IPv4 + IPv6 ) disabled
 - Bool mx_check      = False    # MX test
 - Bool allow-ip      = False    # Allow IPv4 & IPv6 as domain
 - Bool allow-local   = False    # Allow IP private addresses in domain
+- Bool allow-quoted  = False    # Allow quoted mailboxes ( "box"@domain.com )
 - Bool simple        = True     # Perform only local tests ( w/o MX check for example )
 - Str  ns_server     = '8.8.8.8'# Define NS server for MX test
 - Int  ns_server_timeout = 5    # NS server timeout in seconds
@@ -62,6 +63,6 @@ $email.extract( $txt, :validate ) ;
 - [ ] Add "Hello" Callback verification
 - [ ] Add TLD check ( create module Net::Domain::TLD )
 - [ ] Add POD documentation
-- [ ] Allow quoted mailboxes
+- [x] Allow quoted mailboxes
 - [x] Allow ip addresses in domain part
 - [ ] Fix ( Add ) IDN domain char limit
