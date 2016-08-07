@@ -1,7 +1,7 @@
 use v6;
 use Test;
 
-plan 4;
+plan 5;
 
 use Email::Valid;
 my $email = Email::Valid.new();
