@@ -1,5 +1,5 @@
 use v6;
-unit class Email::Valid;
+unit class Email::Valid:ver<1.0.0>:auth<demayl>;
 
 use Net::DNS; # Required only when :mx_check( True )
 #use Net::SMTP;

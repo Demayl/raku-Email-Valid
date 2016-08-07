@@ -1,5 +1,5 @@
 # Email::Valid
-Email::Valid - WIP module to check validity of email addresses
+Email::Valid - perl6 library to validate/parse email addresses
 ## Synopsis
 ```perl6
 use v6.c;
@@ -60,9 +60,11 @@ $email.extract( $txt, :validate ) ;
 
 ## TODO
 - [x] Add MX Check
-- [ ] Add "Hello" Callback verification
+- [ ] Add "Hello" Callback verification ( test if mailbox exists on target server )
 - [ ] Add TLD check ( create module Net::Domain::TLD )
-- [ ] Add POD documentation
+- [ ] Add POD documentation ( Inline )
+- [ ] Allow multiple NS servers for MX test
 - [x] Allow quoted mailboxes
 - [x] Allow ip addresses in domain part
 - [ ] Fix ( Add ) IDN domain char limit
+- [ ] Improve check when Net::DNS module supports timeout and remove hack here
