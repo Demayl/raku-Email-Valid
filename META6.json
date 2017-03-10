@@ -8,6 +8,7 @@
         "Email::Valid"         : "lib/Email/Valid.pm6"
     },
     "depends"     : ["Net::DNS"],
+    "auth" : "github:demayl",
     "authors" : [
         "Denis Kanchev - demayl"
     ],
