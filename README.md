@@ -5,7 +5,7 @@ Email::Valid - perl6 library to validate/parse email addresses
 use v6.c;
 use Email::Valid;
 
-my $email = Email::Valid.new(:simple(True)); # By default :simple( True )
+my $email = Email::Valid.new(:simple); # By default :simple( True )
 
 if $email.validate("test@domain.tld") {
     say "test@domain.tld is valid";
@@ -55,7 +55,7 @@ if !$email.validate("test@domain.tld") {
 ### Extract emails from text & validate them
 ```perl6
 my $txt   = 'Some mails - <mail1@dont-exist.com,mail2@mail.com>'
-my $email = Email::Valid.new(:simple(False), :mx_check );
+my $email = Email::Valid.new(:!simple, :mx_check );
 
 $email.extract( $txt, :validate ) ; 
 # (mail2@mail.com) because it has valid MX record
