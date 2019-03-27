@@ -1,6 +1,6 @@
 use v6;
 
-class Email::Valid:ver<1.0.2>:auth<github:demayl> {
+class Email::Valid:ver<1.0.3>:auth<github:demayl> {
 
 use Net::DNS; # Required only when :mx_check( True )
 #use Net::SMTP;
@@ -37,7 +37,7 @@ my grammar IPv4 {
         10\.<.octet> ** 3 % '.' ||
         172\.(<.octet>)<?{$0 ~~ 16..31}>\.<.octet>\.<.octet> ||
         192\.168\.<.octet>\.<.octet> ||
-        127\.0\.0\.1
+        127\.<.octet> ** 3 % '.'
     }
 }
 
