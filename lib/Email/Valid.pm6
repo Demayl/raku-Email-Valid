@@ -29,10 +29,11 @@ my %domain_mx;                     # Cache MX records for domains, its cached in
 # Multicast & Experimental addresses are excluded
 my grammar IPv4 {
     token octet      { (\d**1..3) <?{ $0 < 256 }> }
-    token ipv4       { <!before 0>(<.octet>) \. (<.octet>) \. (<.octet>) \. (<.octet>) }
-    token ipv4-host  { <!before [<multicast>||<experiment>]>[<ipv4-local>||<ipv4>] <!after 0> }
-    token multicast  { (<.octet>)<?{ $0 ~~ 224..239}>\.<.octet> ** 3 % '.' }
+    token ipv4       { <!before [0||<reserved>]>(<.octet>) \. (<.octet>) \. (<.octet>) \. (<.octet>) } # Generic ipv4 can include multicast addresses etc, but not reserved
+    token ipv4-host  { <!before [<multicast>||<experiment>||<reserved>]>[<ipv4-local>||<ipv4>] <!after 0> }
+    token multicast  { (<.octet>)<?{ $0 ~~ 224..239}>\.<.octet> ** 3 % '.' } # TODO optimise ranges
     token experiment { (<.octet>)<?{ $0 ~~ 240..255}>\.<.octet> ** 3 % '.' }
+    token reserved   { '255.255.255.255' || 100\.(<.octet>)<?{ $0.Int ~~ 64..127 }>\. || '169.254.' || '192.0.'[0||2]\. || '192.88.99.' || '198.51.100.' || '203.0.113.' }
     token ipv4-local {
         10\.<.octet> ** 3 % '.' ||
         172\.(<.octet>)<?{$0 ~~ 16..31}>\.<.octet>\.<.octet> ||
