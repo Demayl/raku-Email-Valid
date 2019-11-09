@@ -1,5 +1,5 @@
 # Email::Valid
-Email::Valid - perl6 library to validate/parse email addresses
+Email::Valid - raku programming language library to validate/parse email addresses
 ## Synopsis
 ```perl6
 use v6.c;

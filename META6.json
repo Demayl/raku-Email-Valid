@@ -3,7 +3,7 @@
     "name"        : "Email::Valid",
     "license"     : "Artistic-2.0",
     "version"     : "1.0.3",
-    "description" : "Email validator for Perl6",
+    "description" : "Email validator for Raku",
     "tags"        : ["Email", "Valid", "Validator"],
     "provides": {
         "Email::Valid"         : "lib/Email/Valid.pm6"
@@ -14,8 +14,8 @@
         "Denis Kanchev - demayl"
     ],
     "support" : {
-        "bugtracker" : "https://github.com/Demayl/perl6-Email-Valid/issues",
-        "source" : "git://github.com/Demayl/perl6-Email-Valid.git"
+        "bugtracker" : "https://github.com/Demayl/raku-Email-Valid/issues",
+        "source" : "git://github.com/Demayl/raku-Email-Valid.git"
     },
-    "source-url"  : "git://github.com/Demayl/perl6-Email-Valid.git"
+    "source-url"  : "git://github.com/Demayl/raku-Email-Valid.git"
 }
