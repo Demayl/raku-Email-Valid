@@ -11,7 +11,7 @@ has Bool $.allow_tags   = False;
 has Bool $.allow-ip     = False;
 has Bool $.allow-local  = False;
 has Bool $.allow-quoted = False; # Not popular quoted mailboxes
-has Bool $.simple       = True; # Try only simple regex validation. Usefull in mose cases. You must explicit set it to False to use other tests
+has Bool $.simple       = True; # Try only simple regex validation. Useful in mose cases. You must explicit set it to False to use other tests
 has Str  $.ns_server    = '8.8.8.8'; # TODO Allow multiple NS servers
 has Int  $.ns_server_timeout where 3 <= * <= 250 = 5;
 
@@ -75,7 +75,7 @@ my grammar Email::Valid::Ripper is Email::Valid::Tokens {
 
 # Wait for "is cached" trait to remove $!regex_parsed
 # TODO add warnings when mix weird options
-method !parse_regex(Str $email!) {
+method !parse_regex(Str $email) {
     if $!regex_parsed{$email}.defined.not {
         my $parsed  = Email::Valid::Tokens.parse($email) // False;
 
@@ -101,7 +101,7 @@ method !parse_regex(Str $email!) {
     return $!regex_parsed{$email};
 }
 
-method !mx_lookup( Str $domain! ) {
+method !mx_lookup(Str $domain) {
 
     $!resolver    //= Net::DNS.new( $.ns_server );
 
@@ -119,7 +119,7 @@ method !mx_lookup( Str $domain! ) {
 # Net::DNS cannot handle timeouts & UDP connections for now. Check it later
 # So use async promise to handle NS lookup timeout.
 # You must validate domain to get the mx records, so this function is required
-method !validate_domain(Str $domain!) {
+method !validate_domain(Str $domain) {
 
     return so self!mx_lookup( $domain );
 }
@@ -127,7 +127,7 @@ method !validate_domain(Str $domain!) {
 
 # Allow multiple email validations from single instance
 # Currently only simple regex validation implemented
-method validate(Str $email!) returns Bool {
+method validate(Str $email) returns Bool {
 
     my Bool $valid_email = so self!parse_regex($email);
     my Bool @checks;
@@ -149,13 +149,13 @@ method validate(Str $email!) returns Bool {
 # 0 -> mailbox
 # 1 -> domain -> [subdomain1, subdomain2 ], tld --> Str $full_domain
 # Returns Nil on fail
-method parse(Str $email!) {
+method parse(Str $email) {
     return  self!parse_regex($email);
 }
 
 # Extract emails from text
 # TODO documentation
-method extract( Str $text!, Bool :$matchs = False, Bool :$validate = False ){
+method extract( Str $text, Bool :$matchs = False, Bool :$validate = False ){
     my @mails = Email::Valid::Ripper.parse($text)[0];
 
     return Nil if !@mails.elems || @mails[0] !~~ Match;
@@ -170,7 +170,7 @@ method extract( Str $text!, Bool :$matchs = False, Bool :$validate = False ){
     return @mails.map: *<email>.Str;
 }
 
-method mx_validate(Str $email!) {
+method mx_validate(Str $email) {
     my Str $domain = self!parse_regex($email)<email><domain>.Str;
 
     return self!validate_domain( $domain );
