@@ -6,7 +6,7 @@
     "description" : "Email validator for Raku",
     "tags"        : ["Email", "Valid", "Validator"],
     "provides": {
-        "Email::Valid"         : "lib/Email/Valid.pm6"
+        "Email::Valid"         : "lib/Email/Valid.rakumod"
     },
     "depends"     : ["Net::DNS"],
     "auth" : "github:demayl",
