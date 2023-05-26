@@ -1,6 +1,4 @@
-use v6;
-
-class Email::Valid:ver<1.0.6>:auth<github:demayl> {
+class Email::Valid:ver<1.0.6>:auth<zef:demayl> {
 
 use Net::DNS; # Required only when :mx_check( True )
 #use Net::SMTP;

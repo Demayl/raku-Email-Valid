@@ -9,7 +9,7 @@
         "Email::Valid"         : "lib/Email/Valid.rakumod"
     },
     "depends"     : ["Net::DNS"],
-    "auth" : "github:demayl",
+    "auth" : "zef:demayl",
     "authors" : [
         "Denis Kanchev - demayl"
     ],
