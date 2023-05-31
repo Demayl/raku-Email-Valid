@@ -1,7 +1,7 @@
 # Email::Valid
 Email::Valid - raku programming language library to validate/parse email addresses
 ## Synopsis
-```perl6
+```raku
 use v6.c;
 use Email::Valid;
 
@@ -41,19 +41,24 @@ It allows IDN domains ( 'xn--' ) and IP address domains ( IPv4 + IPv6 ) disabled
 - Int  ns_server_timeout = 5    # NS server timeout in seconds
 
 ## Examples
-### Enable MX check
+### Using MX check
 - 8.8.8.8 is the default DNS server
 - 5 seconds is the default NS lookup timeout
-```perl6
-my $email = Email::Valid.new(:simple(False), :mx_check, :ns_server('8.8.8.8'), :ns_server_timeout(5) );
+```raku
+use Email::Valid;
+use Sys::IP;
+my $ns_server = Sys::IP.new.get_dns_ips().first // '8.8.8.8';
+my $email = Email::Valid.new(:simple(False), :mx_check, :$ns_server, :ns_server_timeout(5) );
 
 if !$email.validate("test@domain.tld") {
-    say "test@domain.tld is NOT valid";
+    say "Invalid"
+} else {
+	say "Valid"
 }
 ```
 
 ### Extract emails from text & validate them
-```perl6
+```raku
 my $txt   = 'Some mails - <mail1@dont-exist.com,mail2@mail.com>'
 my $email = Email::Valid.new(:!simple, :mx_check );
 
