@@ -2,7 +2,7 @@
     "perl"        : "6.*",
     "name"        : "Email::Valid",
     "license"     : "Artistic-2.0",
-    "version"     : "1.0.6",
+    "version"     : "1.0.7",
     "description" : "Email validator for Raku",
     "tags"        : ["Email", "Valid", "Validator"],
     "provides": {
@@ -11,7 +11,7 @@
     "depends"     : ["Net::DNS"],
     "auth" : "zef:demayl",
     "authors" : [
-        "Denis Kanchev - demayl"
+        "Denis Kanchev <denis@fluxark.com>"
     ],
     "support" : {
         "bugtracker" : "https://github.com/Demayl/raku-Email-Valid/issues",
