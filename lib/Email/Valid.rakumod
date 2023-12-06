@@ -107,8 +107,9 @@ method !mx_lookup(Str $domain) {
         my Promise $promise   = start { %domain_mx{$domain} =  $!resolver.lookup('MX', $domain) // False };
 
         # TODO remove warning and put it in exception
+        # TODO use Net::DNS timeout when available
         # Simple hack - start 2 async promises and wait only 1 to finish, when the empty launches in X seconds - its a failure
-        await Promise.anyof( Promise.in( $.ns_server_timeout ).then({ warn "Failed to make MX lookup to '$domain'" }), $promise );
+        await Promise.anyof( Promise.in( $.ns_server_timeout ).then({ warn "Failed to make MX lookup to '$domain'" if !%domain_mx{$domain} }), $promise );
     }
 
     return %domain_mx{$domain};
